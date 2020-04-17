@@ -11,7 +11,7 @@ import calendar
 from Crypto.Protocol.KDF import HKDF
 from Crypto.Hash import SHA256
 
-from cloud import Cloud
+from .cloud import Cloud
 
 ONE_DAY = 86400
 

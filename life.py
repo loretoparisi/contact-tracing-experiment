@@ -1,9 +1,8 @@
 import random
 import datetime
 from typing import List
-
-from handset import Handset, Contact
-from cloud import Cloud
+from .handset import Handset, Contact
+from .cloud import Cloud
 
 ONE_HOUR = 3600
 ONE_DAY = 86400
@@ -99,6 +98,22 @@ class Life:
                 # contact with the subject
                 for contact in contact_list:
                     fp.write(f'\t\t{contact.ts}\n')
+
+    def download_report(self):
+      # it works in notebook only
+      import ipywidgets as widgets
+      from IPython.display import display
+      button = widgets.Button(description="Download Report")
+      output = widgets.Output()
+
+      def on_button_clicked(b):
+        # Display the message within the output widget.
+        with output:
+          from google.colab import files
+          files.download('report.txt')
+
+      button.on_click(on_button_clicked)
+      display(button, output)
 
     def hour(self, focus: str):
         
