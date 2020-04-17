@@ -3,9 +3,18 @@ This code runs a simulation of proximity interactions between a single subject a
 
 ## How to Run
 You can run the simulation in Google Colab [here](https://colab.research.google.com/drive/1eR2hP5rGvkPgjZBPxrCJqZKloU37lTxQ).
+
 Press the PLAY ▶️button at every block of code and wait results.
+
+You can set the simulation parameters for 
+
+- Number of family members, friends, coworkers and others.
+- Simulation starting date
+
 You can then download the generated report of the simlation pression the **Download Report** button
-![screencapture-colab-research-google-drive-1eR2hP5rGvkPgjZBPxrCJqZKloU37lTxQ-2020-04-17-13_04_57](https://user-images.githubusercontent.com/163333/79562961-2c0cfb80-80ac-11ea-8ea1-28c284a4bfe7.png)
+
+![contactracing](https://user-images.githubusercontent.com/163333/79594544-79559100-80dd-11ea-966a-774073e0b36a.png)
+
 
 
 ## Disclaimer
