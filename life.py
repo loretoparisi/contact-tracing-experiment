@@ -104,8 +104,8 @@ class Life:
                 for contact in contact_list:
                     fp.write(f'\t\t{contact.ts}\n')
 
-    def download_report(self):
-      # it works in notebook only
+    def notebook_download_report(self):
+      # LP: it works in notebook only
       import ipywidgets as widgets
       from IPython.display import display
       button = widgets.Button(description="Download Report")
@@ -117,6 +117,22 @@ class Life:
           from google.colab import files
           files.download('report.txt')
 
+      button.on_click(on_button_clicked)
+      display(button, output)
+
+    def notebook_create_simulation(self):
+      # LP: it works in notebook only
+      import ipywidgets as widgets
+      from IPython.display import display
+      button = widgets.Button(description="Run simulation")
+      output = widgets.Output()
+
+      def on_button_clicked(b):
+        # Display the message within the output widget.
+        with output:
+          self.generate_report()
+          self.notebook_download_report()
+      
       button.on_click(on_button_clicked)
       display(button, output)
 
