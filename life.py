@@ -1,8 +1,13 @@
 import random
 import datetime
 from typing import List
-from .handset import Handset, Contact
-from .cloud import Cloud
+
+try:
+    from .handset import Handset, Contact
+    from .cloud import Cloud
+except:
+    from handset import Handset, Contact
+    from cloud import Cloud
 
 ONE_HOUR = 3600
 ONE_DAY = 86400
