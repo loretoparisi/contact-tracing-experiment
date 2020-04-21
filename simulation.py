@@ -1,7 +1,7 @@
 try:
     from .life import Life
 except:
-    from lie import Life
+    from life import Life
 
 import time
 import datetime
