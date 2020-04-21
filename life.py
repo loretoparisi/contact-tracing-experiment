@@ -19,11 +19,16 @@ def get_handsets(count, relation):
 
 class Life:
 
-    def __init__(self, start_time: int):
-        self.family = get_handsets(random.randrange(2, 8), 'family')
-        self.friends = get_handsets(random.randrange(10, 20), 'friend')
-        self.coworkers = get_handsets(random.randrange(15, 40), 'coworker')
-        self.others = get_handsets(random.randrange(40, 100), 'other')
+    def __init__(self, start_time: int, 
+    family_range,
+    friends_range,
+    coworkers_range,
+    others_range):
+
+        self.family = get_handsets(family_range, 'family')
+        self.friends = get_handsets(friends_range, 'friend')
+        self.coworkers = get_handsets(coworkers_range, 'coworker')
+        self.others = get_handsets(others_range, 'other')
 
         self.all_handsets = self.family + self.friends + self.coworkers + self.others  # noqa
 
