@@ -147,8 +147,15 @@ class Life:
             other = random.choice(self.others)
             self.mingle(other)
 
+    def print_time(self, ts):
+      value = datetime.datetime.fromtimestamp(ts)
+      print( value.strftime('%Y-%m-%d %H:%M:%S') )
+
+
     def weekday(self):
         day_start = self.time  # save the first hour of our day
+
+        self.print_time(self.time)
 
         # starting a new day, generate the DTK
         # for each handset
@@ -185,6 +192,8 @@ class Life:
         self.hour('family')
         self.hour('family')
 
+        self.print_time(self.time)
+
         # fast forward to the next morning
         self.time = day_start + ONE_DAY
 
@@ -220,8 +229,3 @@ class Life:
 
         self.time = day_start + ONE_DAY
 
-
-if __name__ == '__main__':
-    life = Life(1586761200)
-    life.start()
-    life.generate_report()
