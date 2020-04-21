@@ -72,4 +72,5 @@ if __name__ == '__main__':
     life.start()
 
     # generate report and download
-    life.generate_report()
+    report = life.generate_report()
+    print(report)

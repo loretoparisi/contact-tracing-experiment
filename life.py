@@ -7,6 +7,7 @@
 #
 
 import random
+import json
 import datetime
 from typing import List
 
@@ -95,7 +96,20 @@ class Life:
         self.subject.receive_rpi(other_rpi)
 
     def generate_report(self):
+
+        # report statistics
+        stats = {}
+        stats['contacts'] = 0
+        stats['contact_periods'] = 0
+
         with open('report.txt', 'w') as fp:
+
+            stats['start_time'] = self.start_time
+            stats['family'] = len(self.family)
+            stats['friends'] = len(self.friends)
+            stats['coworkers'] = len(self.coworkers)
+            stats['others'] = len(self.others)
+
             fp.write(f'Simulation Start Time: {self.start_time}\n\n')
             fp.write(f'Family Count: {len(self.family)}\n')
             fp.write(f'Friend Count: {len(self.friends)}\n')
@@ -107,15 +121,19 @@ class Life:
             for contact_list in contacts:
                 if not contact_list:
                     continue
+                stats['contacts'] = stats['contacts'] + 1
                 # write metadata about the handset using the first Contact
                 fp.write('-'*20 + '\n')
                 fp.write(f'Handset ID: {contact_list[0].uuid}\n')
-                fp.write(f'Relation to subject: {contact_list[0].relation} [SIMULATION DATA ONLY, would not be revealed real-world] \n')  # noqa
+                fp.write(f'Relation to subject: {contact_list[0].relation}\n')
                 fp.write(f'Contact periods:\n')
                 # write out the timestamps this handset had close
                 # contact with the subject
                 for contact in contact_list:
                     fp.write(f'\t\t{contact.ts}\n')
+                    stats['contact_periods'] = stats['contact_periods'] + 1
+        
+        return json.dumps(stats, sort_keys=False, indent=4)
 
     def download_report(self):
       # LP: it works in notebook only
@@ -171,32 +189,34 @@ class Life:
         for h in self.all_handsets:
             h.create_daily_tracing_key(self.time)
 
-        # spend a couple hours in the morning with family
-        self.hour('family')
+        # 1h in the morning with family
         self.hour('family')
 
-        # stop for some breakfast / coffee on the way to work?
+        # 1h commute / breakfast
         if random.choice([1, 2, 3]) == 1:
             self.hour('others')
 
-        # work, work!
+        # 4h work
+        self.hour('coworker')
         self.hour('coworker')
         self.hour('coworker')
         self.hour('coworker')
 
-        # lunch / gym?
+        # 1h lunch / gym
         if random.choice([1, 2, 3]) == 1:
             self.hour('others')
 
-        # moar work
+        # 4h work
+        self.hour('coworker')
+        self.hour('coworker')
         self.hour('coworker')
         self.hour('coworker')
 
-        # happy hour?
+        # 1h happy hour
         if random.choice([1, 2, 3, 4, 5]) == 1:
             self.hour('friends')
 
-        # back home
+        # 2h back home
         self.hour('family')
         self.hour('family')
 
