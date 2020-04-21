@@ -1,4 +1,7 @@
-from life import Life
+try:
+    from .life import Life
+except:
+    from lie import Life
 
 import time
 import datetime
