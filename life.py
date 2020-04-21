@@ -69,6 +69,9 @@ class Life:
         self.weekend()
         self.weekend()
 
+        # save off the actual end time for reporting
+        self.end_time = datetime.datetime.utcfromtimestamp(self.time).isoformat()  # noqa
+
         # assume a positive diagnosis
         # so that would mean the subject's
         # past DTKs are uploaded to the cloud
@@ -99,12 +102,13 @@ class Life:
 
         # report statistics
         stats = {}
+        stats['start_time'] = self.start_time
+        stats['end_time'] = self.end_time
         stats['contacts'] = 0
         stats['contact_periods'] = 0
 
         with open('report.txt', 'w') as fp:
 
-            stats['start_time'] = self.start_time
             stats['family'] = len(self.family)
             stats['friends'] = len(self.friends)
             stats['coworkers'] = len(self.coworkers)
