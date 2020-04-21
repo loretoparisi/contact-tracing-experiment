@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Code https://github.com/gretelai/contact-tracing-experiment
+#
+
 from collections import defaultdict
 
 

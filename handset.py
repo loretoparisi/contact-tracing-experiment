@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Code https://github.com/gretelai/contact-tracing-experiment
+#
+
 import secrets
 import uuid
 import datetime

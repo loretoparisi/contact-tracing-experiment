@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# @author: Loreto Parisi (loretoparisi at gmail dot com)
+# Code: https://github.com/loretoparisi/contacttracing
+# adapted from: https://github.com/gretelai/contact-tracing-experiment
+#
+
 import random
 import datetime
 from typing import List

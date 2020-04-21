@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# @author: Loreto Parisi (loretoparisi at gmail dot com)
+# Code: https://github.com/loretoparisi/contacttracing
+# adapted from: https://github.com/gretelai/contact-tracing-experiment
+#
+
 try:
     from .life import Life
 except:
