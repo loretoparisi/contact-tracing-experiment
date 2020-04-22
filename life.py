@@ -18,9 +18,6 @@ except:
     from handset import Handset, Contact
     from cloud import Cloud
 
-ONE_HOUR = 3600
-ONE_DAY = 86400
-
 
 def get_handsets(count, relation):
     return [Handset(relation) for _ in range(0, count)]
@@ -28,11 +25,14 @@ def get_handsets(count, relation):
 
 class Life:
 
-    def __init__(self, start_time: int, 
-    family_range,
-    friends_range,
-    coworkers_range,
-    others_range):
+    def __init__(self, start_time: int,
+        family_range,
+        friends_range,
+        coworkers_range,
+        others_range):
+
+        self.ONE_HOUR = 3600 # cannot be changed
+        self.ONE_DAY = 86400
 
         self.family = get_handsets(family_range, 'family')
         self.friends = get_handsets(friends_range, 'friend')
@@ -45,8 +45,9 @@ class Life:
         self.time = start_time
 
         # save off the actual start time for reporting
+        self.start_time_ts = start_time
         self.start_time = datetime.datetime.utcfromtimestamp(start_time).isoformat()  # noqa
-
+        
         # the person that eventually will contract C19
         self.subject = Handset('subject')
 
@@ -104,10 +105,15 @@ class Life:
         stats = {}
         stats['start_time'] = self.start_time
         stats['end_time'] = self.end_time
+        stats['hour_duration_sec'] = self.ONE_HOUR
+        stats['day_duration_sec'] = self.ONE_DAY
         stats['contacts'] = 0
         stats['contact_periods'] = 0
 
-        with open('report.txt', 'w') as fp:
+        ts = datetime.datetime.utcfromtimestamp(self.start_time_ts)
+        fname = 'report_' + ts.strftime('%Y-%m-%dT%H%M%S') + '.txt'
+
+        with open(fname, 'w') as fp:
 
             stats['family'] = len(self.family)
             stats['friends'] = len(self.friends)
@@ -157,7 +163,7 @@ class Life:
 
     def hour(self, focus: str):
         
-        self.time += ONE_HOUR
+        self.time += self.ONE_HOUR
 
         if focus == 'family':
             other = random.choice(self.family)
@@ -178,7 +184,7 @@ class Life:
             self.mingle(other)
 
     def print_time(self, ts):
-      value = datetime.datetime.fromtimestamp(ts)
+      value = datetime.datetime.utcfromtimestamp(ts)
       print( value.strftime('%Y-%m-%d %H:%M:%S') )
 
 
@@ -193,7 +199,7 @@ class Life:
         for h in self.all_handsets:
             h.create_daily_tracing_key(self.time)
 
-        # 1h in the morning with family
+        # 1h at home with family
         self.hour('family')
 
         # 1h commute / breakfast
@@ -227,31 +233,32 @@ class Life:
         self.print_time(self.time)
 
         # fast forward to the next morning
-        self.time = day_start + ONE_DAY
+        self.time = day_start + self.ONE_DAY
 
     def weekend(self):
         day_start = self.time
+
+        self.print_time(self.time)
 
         self.subject.create_daily_tracing_key(self.time)
         for h in self.all_handsets:
             h.create_daily_tracing_key(self.time)
 
-        self.hour('family')
+        # 2h wakeup home
         self.hour('family')
         self.hour('family')
 
-        # errands or whatever
+        # 1h gym
         self.hour('others')
 
-        # quick meetup
+        # 1h quick meetup
         self.hour('friends')
 
-        # back home
+        # 2h lunch home
         self.hour('family')
         self.hour('family')
 
-        # party!
-        self.hour('friends')
+        # party
         self.hour('friends')
         self.hour('friends')
 
@@ -259,5 +266,11 @@ class Life:
         self.hour('others')
         self.hour('others')
 
-        self.time = day_start + ONE_DAY
+        # 1h family
+        self.hour('family')
+        self.hour('family')
+
+        self.print_time(self.time)
+        
+        self.time = day_start + self.ONE_DAY
 

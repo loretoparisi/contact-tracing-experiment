@@ -47,7 +47,7 @@ def datetime2utc_time(datetime):
     return utc_time
 
 if __name__ == '__main__':
-    
+
     # subjects ranges
     family_range = 3
     friends_range = 10
