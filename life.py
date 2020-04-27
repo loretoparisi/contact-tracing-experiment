@@ -10,7 +10,6 @@ import random, json
 import datetime
 from typing import List
 
-from handset import Handset, Contact, TEK
 try:
     from .handset import Handset, Contact, TEK
 except:
