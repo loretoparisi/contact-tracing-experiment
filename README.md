@@ -1,6 +1,13 @@
 # Contact Tracing Simulator
 This code runs a simulation of proximity interactions between a single subject and a collection of other handsets that belong to family, friends, coworkers, and other random people.
 
+## Disclaimer
+The original Python implementation based on **Apple + Google Contact Tracing** by Gretel.ai - https://github.com/gretelai/contact-tracing-experiment
+
+
+## What's New
+The simulation source code and this Colab have been updated to match [Apple|Google Exposure Notification v1.1. specification April 2020](https://covid19-static.cdn-apple.com/applications/covid19/current/static/contact-tracing/pdf/ExposureNotification-CryptographySpecificationv1.1.pdf).
+
 ## How to Run
 You can run the simulation in Google Colab [here](https://colab.research.google.com/drive/1eR2hP5rGvkPgjZBPxrCJqZKloU37lTxQ).
 
@@ -15,10 +22,6 @@ You can then download the generated report of the simlation pression the **Downl
 
 ![contactracing](https://user-images.githubusercontent.com/163333/79594544-79559100-80dd-11ea-966a-774073e0b36a.png)
 
-
-
-## Disclaimer
-The original Python implementation based on **Apple + Google Contact Tracing** by Gretel.ai - https://github.com/gretelai/contact-tracing-experiment
 
 ## Source code:
 https://github.com/loretoparisi/contacttracing
@@ -104,5 +107,8 @@ Contact periods:
 		2020-04-30T17:30:00
 --------------------
 ```
+
+## Acknoledgments
+Thanks to [gretelai](https://github.com/gretelai) for the specification implementation.
 
 
