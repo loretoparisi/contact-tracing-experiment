@@ -6,21 +6,28 @@
 # adapted from: https://github.com/gretelai/contact-tracing-experiment
 #
 
-import random
-import json
+import random, json
 import datetime
 from typing import List
 
+from handset import Handset, Contact, TEK
 try:
-    from .handset import Handset, Contact
-    from .cloud import Cloud
+    from .handset import Handset, Contact, TEK
 except:
-    from handset import Handset, Contact
-    from cloud import Cloud
+    from handset import Handset, Contact, TEK
 
 
 def get_handsets(count, relation):
     return [Handset(relation) for _ in range(0, count)]
+
+
+class Cloud:
+
+    def __init__(self):
+        self.diagnosis_keys = []
+
+    def add_tek(self, tek: TEK):
+        self.diagnosis_keys.append(tek)
 
 
 class Life:
@@ -47,7 +54,7 @@ class Life:
         # save off the actual start time for reporting
         self.start_time_ts = start_time
         self.start_time = datetime.datetime.utcfromtimestamp(start_time).isoformat()  # noqa
-        
+
         # the person that eventually will contract C19
         self.subject = Handset('subject')
 
@@ -73,15 +80,7 @@ class Life:
         # save off the actual end time for reporting
         self.end_time = datetime.datetime.utcfromtimestamp(self.time).isoformat()  # noqa
 
-        # assume a positive diagnosis
-        # so that would mean the subject's
-        # past DTKs are uploaded to the cloud
-        # to be made available to all other
-        # users
-        for _, dtk in list(self.subject.daily_trace_keys.items()):
-            # NOTE: see how easy it is to just slip in the 
-            # handset UUID? You don't need to for this to work!
-            self.cloud.add_dtk(self.subject.uuid, dtk)
+        self.subject.upload_teks(self.cloud)
 
     def find_contacts(self):
         """Go through all of the handsets and find
@@ -145,24 +144,8 @@ class Life:
         
         return json.dumps(stats, sort_keys=False, indent=4)
 
-    def download_report(self):
-      # LP: it works in notebook only
-      import ipywidgets as widgets
-      from IPython.display import display
-      button = widgets.Button(description="Download Report")
-      output = widgets.Output()
-
-      def on_button_clicked(b):
-        # Display the message within the output widget.
-        with output:
-          from google.colab import files
-          files.download('report.txt')
-
-      button.on_click(on_button_clicked)
-      display(button, output)
-
     def hour(self, focus: str):
-        
+
         self.time += self.ONE_HOUR
 
         if focus == 'family':
@@ -183,21 +166,16 @@ class Life:
             other = random.choice(self.others)
             self.mingle(other)
 
-    def print_time(self, ts):
-      value = datetime.datetime.utcfromtimestamp(ts)
-      print( value.strftime('%Y-%m-%d %H:%M:%S') )
-
-
     def weekday(self):
         day_start = self.time  # save the first hour of our day
 
-        self.print_time(self.time)
-
-        # starting a new day, generate the DTK
+        # starting a new day, generate the TEK
         # for each handset
-        self.subject.create_daily_tracing_key(self.time)
+
+        self.subject.create_tek(self.time)
+
         for h in self.all_handsets:
-            h.create_daily_tracing_key(self.time)
+            h.create_tek(self.time)
 
         # 1h at home with family
         self.hour('family')
@@ -230,19 +208,16 @@ class Life:
         self.hour('family')
         self.hour('family')
 
-        self.print_time(self.time)
-
         # fast forward to the next morning
         self.time = day_start + self.ONE_DAY
 
     def weekend(self):
         day_start = self.time
 
-        self.print_time(self.time)
+        self.subject.create_tek(self.time)
 
-        self.subject.create_daily_tracing_key(self.time)
         for h in self.all_handsets:
-            h.create_daily_tracing_key(self.time)
+            h.create_tek(self.time)
 
         # 2h wakeup home
         self.hour('family')
@@ -270,7 +245,4 @@ class Life:
         self.hour('family')
         self.hour('family')
 
-        self.print_time(self.time)
-        
         self.time = day_start + self.ONE_DAY
-

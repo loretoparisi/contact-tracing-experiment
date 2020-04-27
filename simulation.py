@@ -46,6 +46,26 @@ def datetime2utc_time(datetime):
 
     return utc_time
 
+def print_time(ts):
+    value = datetime.datetime.utcfromtimestamp(ts)
+    print( value.strftime('%Y-%m-%d %H:%M:%S') )
+
+def download_report():
+      # LP: it works in notebook only
+      import ipywidgets as widgets
+      from IPython.display import display
+      button = widgets.Button(description="Download Report")
+      output = widgets.Output()
+
+      def on_button_clicked(b):
+        # Display the message within the output widget.
+        with output:
+          from google.colab import files
+          files.download('report.txt')
+
+      button.on_click(on_button_clicked)
+      display(button, output)
+
 if __name__ == '__main__':
 
     # subjects ranges
