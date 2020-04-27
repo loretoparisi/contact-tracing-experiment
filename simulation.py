@@ -11,6 +11,7 @@ try:
 except:
     from life import Life
 
+import json
 import time
 import datetime
 from pytz import timezone
@@ -93,4 +94,5 @@ if __name__ == '__main__':
 
     # generate report and download
     report = life.generate_report()
-    print(report)
+    report = json.loads( report )
+    print( report )
