@@ -61,7 +61,7 @@ def download_report(fname):
         # Display the message within the output widget.
         with output:
           from google.colab import files
-          files.download(fname
+          files.download(fname)
 
       button.on_click(on_button_clicked)
       display(button, output)
