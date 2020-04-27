@@ -50,7 +50,7 @@ def print_time(ts):
     value = datetime.datetime.utcfromtimestamp(ts)
     print( value.strftime('%Y-%m-%d %H:%M:%S') )
 
-def download_report():
+def download_report(fname):
       # LP: it works in notebook only
       import ipywidgets as widgets
       from IPython.display import display
@@ -61,7 +61,7 @@ def download_report():
         # Display the message within the output widget.
         with output:
           from google.colab import files
-          files.download('report.txt')
+          files.download(fname
 
       button.on_click(on_button_clicked)
       display(button, output)

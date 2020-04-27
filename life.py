@@ -99,17 +99,18 @@ class Life:
 
     def generate_report(self):
 
+        ts = datetime.datetime.utcfromtimestamp(self.start_time_ts)
+        fname = 'report_' + ts.strftime('%Y-%m-%dT%H%M%S') + '.txt'
+
         # report statistics
         stats = {}
+        stats['report_name'] = fname
         stats['start_time'] = self.start_time
         stats['end_time'] = self.end_time
         stats['hour_duration_sec'] = self.ONE_HOUR
         stats['day_duration_sec'] = self.ONE_DAY
         stats['contacts'] = 0
         stats['contact_periods'] = 0
-
-        ts = datetime.datetime.utcfromtimestamp(self.start_time_ts)
-        fname = 'report_' + ts.strftime('%Y-%m-%dT%H%M%S') + '.txt'
 
         with open(fname, 'w') as fp:
 
