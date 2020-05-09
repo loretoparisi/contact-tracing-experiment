@@ -1,4 +1,4 @@
-# Contact Tracing Simulator
+# Exposure Notification (Contact Tracing) Simulator
 This code runs a simulation of proximity interactions between a single subject and a collection of other handsets that belong to family, friends, coworkers, and other random people.
 
 ## Disclaimer
